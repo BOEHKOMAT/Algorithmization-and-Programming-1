@@ -1,23 +1,20 @@
 #include <stdio.h>
 #include <math.h>
-#include <cs50.h>
+
 
 int main()
 {
-    int m,n,Result;
+    int m, n, R1, R2, R3;
     printf("Enter m\n");
-    m = GetInt();
+    scanf("%i",&m);
     printf("Enter n\n");
-    n = GetInt();
-    Result = m-(++n);
-    printf("%d\n", Result);
-    if(++m>--n)
-        printf("True\n");
-    else
-        printf("False\n");
-    if(--n<++m)
-        printf("True\n");
-    else
-        printf("False\n");    
-    return 0;    
+    scanf("%i",&n);
+    
+    R1 = m - ++n;
+    R2 = ++m>--n;
+    R3 = --n<++m;
+    
+    printf("Result1:%i\nResult2:%i\nResult3:%i\n", R1, R2, R3);
+    
+    return 0;
 }
