@@ -1,47 +1,43 @@
 #include <stdio.h>
 #include <math.h>
 #define M_PI 3.1415926
+#define EPS 0.0001
+
+long long fact(int x)
+{
+    if(x == 0 || x == 1)
+        {
+            return 1;
+        }
+    else 
+        {
+            return x*fact(x-1);
+        }
+}
 
 int main(void)
 {
-    long long f = 1;
-    long double SN = 0, SE = 0, n = 0;
+    double SE = 0, SE1 = 0, SN = 0, SN1 = 0, n = 0;
     double y;
-    float x = 0.1, e = 2.71, x1 = 0.09, epsilon = 0.0001;
-       
-    for(int c = 0; c<25; c++)
+    float x = 0.1, e = 2.71;
+    
+    for(x = 0.1; x <= 1; x += 0.09)
     {
-        if(x < 1)
-            {
-                printf("X=%.2f\t", x);
-            }
-        else
-            {
-                printf("\t");
-            }
-        f *= c;
-        if(f == 0)
-            {
-                f = 1;
-            }
-        SN = ((cos(n * M_PI / 4)) / f) * pow(x1,n);
-        printf("SN=%.20Lf\t", SN);
-        SE = ((cos(n * M_PI / 4)) / f) * pow(x1,n);
-        if(SE>epsilon)
-            {   
-                printf("SE=%.4Lf\t", SE);
-            }
-        else
-            {
-                printf("\t\t");
-            }
         y = pow(e,x * cos(M_PI / 4)) * cos(x * sin(M_PI / 4));
-        if(x < 1)
-            {
-                printf("Y=%.5f\n", y);
-            }
-        else
-            printf("\n");
-        x += 0.09;
+        for(n = 0, SN = 0; n < 25; n++)
+        {
+            SN1 = ((cos(n * M_PI / 4)) / fact(n)) * pow(x,n);
+            SN += SN1;
+        }
+        n = 0;
+        SE = 0;
+        do
+        {
+            SE1 = ((cos(n * M_PI / 4)) / fact(n)) * pow(x,n);
+            SE += SE1;
+            n++;
+        }
+        while(SE1 > EPS);
+        printf("X=%.2f\tSN=%f\tSE=%f\tY=%f\n", x, SN, SE, y);
     }
 }
