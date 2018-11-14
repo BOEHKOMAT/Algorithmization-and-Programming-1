@@ -5,7 +5,7 @@
 
 void word(char sentence[],int i)
 {
-    if(isalpha(sentence[i]) || isblank(sentence[i]) || ispunct(sentence[i]))
+    if(!isdigit(sentence[i]))
         {
             printf("%c", sentence[i]);
         }
