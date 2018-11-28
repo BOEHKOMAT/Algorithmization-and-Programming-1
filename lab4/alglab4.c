@@ -1,7 +1,8 @@
 #include<stdio.h>
 #include<cs50.h>
 #include<time.h>
-void pmas(int E[], int e)
+
+void pmas(int *E, int e)
 {
     for(int i = 0; i < e; i++)
     {
@@ -10,34 +11,51 @@ void pmas(int E[], int e)
     printf("\n");
 }
 
-void del(int E[], int e, int d)
+void del(int *M, int e, int d)
 {
     for(int i = 0; i < e; i++)
     {
         if(i >= d)
             {
-                E[i] = E[i+1];
+                M[i] = M[i+1];
             }
     }
 }
 
-void equal(int A[], int B[], int s)
+void add(int *M, int *N, int length)
 {
-    for(int i = 0 ; i < s ; i++)
+    N[0] = M[0];
+    for(int i = 1 ; i < length ; i++)
     {
-        B[i] = A[i];
+        if(M[i] == 0 || M[i] % 2 != 0)
+        {
+            N[i] = M[i];
+        }    
+        else
+        {
+            N[i]=M[i];
+            N[i+1] = M[i-1]+2;
+            for(int j = i+2 ; j < length+1; j++)
+            {
+                N[j] = M[j-1];
+            }
+            break;
+        }
     }
-    printf("\n");
 }
 
 int main(void)
 {
     srand(time(NULL));
     int x, x1, i;
-    printf("Choose size of array: ");
-    scanf("%i", &x);
+    do
+    {
+        printf("Choose size of array: ");
+        scanf("%i", &x); 
+    }
+    while(x < 0);
     int M[x];
-    int N[x-1];
+    int N[x];
     
     for(i = 0; i < x; i++)
         {
@@ -45,35 +63,14 @@ int main(void)
         }
     pmas(M,x);
     
-    printf("Choose array element to remove it: ");
-    scanf("%i",&x1);
-    
-    del(M,x,x1);
-    equal(M,N,x-1);
-    pmas(M,x-1);
-    
-    printf("|%i|", M[0]);
-    for(i = 1 ; i < x ; i++)
+    do
     {
-        if(M[i] == 0)
-            {
-                continue;
-            }
-        else if(M[i] % 2 != 0)
-            {
-                printf("|%i|", M[i]);
-            }
-        else
-            {
-                printf("|%i|", M[i]);
-                M[i+1] = M[i-1] + 2;
-                printf("|%i|", M[i+1]);
-                for(int j = i + 1 ; j < x - 1 ; j++)
-                {
-                    printf("|%i|", N[j]);
-                }
-                break;
-            }
+        printf("Choose array element to remove it: ");
+        scanf("%i",&x1);
     }
-    printf("\n");
+    while(x < 0);
+    del(M,x,x1);
+    pmas(M,x-1);
+    add(M,N,x);
+    pmas(N,x);
 }
